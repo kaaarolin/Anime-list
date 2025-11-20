@@ -4,6 +4,7 @@ import { searchAnime, getPopularAnime } from "../Services/api";
 import "../Css/Home.css";
 
 
+
 function Home() {
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -36,6 +37,7 @@ function Home() {
             setLoading(true);
             const results = await searchAnime(searchQuery);
             setAnime(results);
+            setError(null)
         } catch (err) {
             console.error(err);
             setError("Search failed...");
@@ -64,10 +66,16 @@ function Home() {
             <h2 className="home-title"> Popular Anime</h2>
 
             <div className="movies-grid">
-                {anime.map((item) => (
-                    <MovieCard movie={item} key={item.id} />
+                {anime
+                    .filter((item) =>
+                        item.title.romaji.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        (item.title.english && item.title.english.toLowerCase().includes(searchQuery.toLowerCase()))
+                    )
+                    .map((item) => (
+                        <MovieCard movie={item} key={item.id} />
                 ))}
             </div>
+
         </div>
     );
 }

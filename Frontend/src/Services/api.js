@@ -3,7 +3,7 @@ const ANILIST_URL = "https://graphql.anilist.co";
 export const getPopularAnime = async () => {
     const query = `
         query {
-            Page(perPage: 100) {
+            Page(perPage: 200) {
                 media(type: ANIME, sort: POPULARITY_DESC) {
                     id
                     title {
