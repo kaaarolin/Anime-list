@@ -22,6 +22,7 @@ function MovieCard({ movie }) {
 
             <div className="movie-info">
                 <h3>{movie.title.romaji || movie.title.english}</h3>
+                <p>{movie.startDate.year}</p>
             </div>
         </div>
     );

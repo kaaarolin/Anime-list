@@ -13,6 +13,9 @@ export const getPopularAnime = async () => {
                     coverImage {
                         large
                     }
+                    startDate {
+                        year
+                    }
                 }
             }
         }
