@@ -1,12 +1,13 @@
 .movie-card {
   position: relative;
-  border-radius: 8px;
+  border-radius: 2rem;
   overflow: hidden;
   background-color: #1a1a1a; /*vitt annars */
   transition: transform 0.2s;
   height: 100%;
   display: flex;
   flex-direction: column;
+
 }
 
 .movie-card:hover {
