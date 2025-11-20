@@ -2,7 +2,7 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  background-color: #1a1a1a; /vitt annars 
+  background-color: #1a1a1a; /*vitt annars */
   transition: transform 0.2s;
   height: 100%;
   display: flex;
@@ -52,7 +52,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: rgb(252, 161, 166);
+  color: #ffffff;
   font-size: 1.5rem;
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.5);
@@ -67,10 +67,11 @@
 
 .favorite-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
+  color: rgb(252, 161, 166);
 }
 
 .favorite-btn.active {
-  color: #ff4757;
+  color: rgb(252, 161, 166);
 }
 
 .rating-select {

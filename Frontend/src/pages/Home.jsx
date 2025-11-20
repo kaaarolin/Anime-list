@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import { searchAnime, getPopularAnime } from "../Services/api";
 import "../Css/Home.css";
 
-
-
 function Home() {
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [anime, setAnime] = useState([]);
+    const [movie, setMovie] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -16,7 +14,7 @@ function Home() {
         const loadPopularAnime = async () => {
             try {
                 const popularAnime = await getPopularAnime();
-                setAnime(popularAnime);
+                setMovie(popularAnime);
             } catch (err) {
                 console.error(err);
                 setError("Failed to load anime...");
@@ -36,8 +34,8 @@ function Home() {
         try {
             setLoading(true);
             const results = await searchAnime(searchQuery);
-            setAnime(results);
-            setError(null)
+            setMovie(results);
+            setError(null);
         } catch (err) {
             console.error(err);
             setError("Search failed...");
@@ -63,17 +61,20 @@ function Home() {
                 <button type="submit" className="search-button">Search</button>
             </form>
 
-            <h2 className="home-title"> Popular Anime</h2>
+            <h2 className="home-title">Popular Anime</h2>
 
             <div className="movies-grid">
-                {anime
-                    .filter((item) =>
-                        item.title.romaji.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        (item.title.english && item.title.english.toLowerCase().includes(searchQuery.toLowerCase()))
-                    )
+                {movie
+                    .filter((item) => {
+                        const romaji = item.title?.romaji?.toLowerCase() || "";
+                        const english = item.title?.english?.toLowerCase() || "";
+                        const q = searchQuery.toLowerCase();
+
+                        return romaji.includes(q) || english.includes(q);
+                    })
                     .map((item) => (
                         <MovieCard movie={item} key={item.id} />
-                ))}
+                    ))}
             </div>
 
         </div>
@@ -81,3 +82,4 @@ function Home() {
 }
 
 export default Home;
+
