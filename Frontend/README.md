@@ -1,1 +1,1 @@
-# REACT frontend with an AniList API 
+# Anime list built in React with AniList API and favorite list stored in local storage
