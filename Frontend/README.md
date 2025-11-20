@@ -1,1 +1,1 @@
-# REACT frontend with a AniList API 
+# REACT frontend with an AniList API 
