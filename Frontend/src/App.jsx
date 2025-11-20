@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import {Routes, Route} from "react-router-dom"
 import NavBar from './components/NavBar';
 import { MovieProvider } from "./contexts/MovieContext";
+import KarrosFaves from "./pages/KarrosFaves";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/favorites" element={<Favorites />} /> 
+        <Route path="/karrosfaves" element={<KarrosFaves />} />
       </Routes>
     </main>
     </MovieProvider>
