@@ -1,39 +1,75 @@
-import MovieCard from "../components/MovieCard"
-import { useState } from "react"
+import MovieCard from "../components/MovieCard";
+import { useState, useEffect } from "react";
+import { searchAnime, getPopularAnime } from "../Services/api";
 import "../Css/Home.css";
+
 
 function Home() {
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [anime, setAnime] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const movies = [
-        {id: 1, title: "John Wick", release_date: "2023"}, 
-        {id: 2, title: "Terminator", release_date: "2023"}, 
-        {id: 3, title: "The Lion king", release_date: "2023"}
-    ]
+    useEffect(() => {
+        const loadPopularAnime = async () => {
+            try {
+                const popularAnime = await getPopularAnime();
+                setAnime(popularAnime);
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load anime...");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const handleSearch = (e) => {
-        e.preventDefault()
-        alert(searchQuery)
-        setSearchQuery("")
+        loadPopularAnime();
+    }, []);
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+
+        if (!searchQuery.trim()) return;
+
+        try {
+            setLoading(true);
+            const results = await searchAnime(searchQuery);
+            setAnime(results);
+        } catch (err) {
+            console.error(err);
+            setError("Search failed...");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    return <div className="home">
+    if (loading) return <h2>Loading anime...</h2>;
+    if (error) return <h2>{error}</h2>;
 
-        <form onSubmit={handleSearch} className="search-form">
-            <input type="text" placeholder="Search for anime . . . " className="search-input" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button type="submit" className="search-button">Search</button>
-        </form>
+    return (
+        <div className="home">
 
-        <div className="movies-grid">
-            {movies.map(movie => ( 
-                movie.title.toLowerCase().startsWith(searchQuery) && <MovieCard movie={movie} key={movie.id} />
-            ))}
+            <form onSubmit={handleSearch} className="search-form">
+                <input
+                    type="text"
+                    placeholder="Search for anime..."
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button type="submit" className="search-button">Search</button>
+            </form>
+
+            <h2 className="home-title"> Popular Anime</h2>
+
+            <div className="movies-grid">
+                {anime.map((item) => (
+                    <MovieCard movie={item} key={item.id} />
+                ))}
+            </div>
         </div>
-    </div>
+    );
 }
 
-export default Home
+export default Home;
